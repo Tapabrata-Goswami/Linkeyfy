@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--=== Style Sheets=== -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!--=== Style Sheets=== -->
+    <!-- ===fontawsome=== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- ===fontawsome=== -->
+    <title>linkeifi | Generate your link & QR codes</title>
+</head>
+
+<body>
+    <section class="main">
+        <div class="container">
+            <form action="">
+                <div class="form-grp">
+                    <input id="long-link" type="text" placeholder="Provide me the link...." autocomplete="off">
+                </div>
+                <div class="form-grp">
+                    <button id="btn-links-G" class="generate-short-link">Generate <i
+                            class="fa-solid fa-link"></i></button>
+                    <button id="btn-qrcodes-G" class="generate-short-link">Generate <i
+                            class="fa-solid fa-qrcode"></i></button>
+                </div>
+            </form>
+            <div class="result-container">
+                <img id="results-qr" alt="">
+            </div>
+        </div>
+        <div class="short-link-container">
+            <div class="options">
+                <div>
+                    <div class="child-options dashboard">
+                        <span>Dashboard <i class="fa-solid fa-gauge"></i></span>
+                    </div>
+                    <div class="extra-fetures-dashboard">Check link Analytics<i class="fa-solid fa-chart-simple"></i></div>
+                </div>
+                <div>
+                    <div class="child-options support-me">
+                        <span>Documentation <i class="fa-solid fa-file-lines"></i></span>
+                    </div>
+                    <!-- <div class="extra-fetures-dashboard">APIs<i class="fa-solid fa-chart-simple"></i></div> -->
+                </div>
+                <div>
+                    <div class="child-options github">
+                        <span>Github <i class="fa-brands fa-github"></i></span>
+                    </div>
+                    <!-- <div class="extra-fetures-dashboard">Tapabrata Goswami<i class="fa-solid fa-chart-simple"></i></div> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+
+        const LonglinkInput = document.querySelector("#long-link");
+        const btnGlink = document.querySelector("#btn-links-G");
+        const btnGqrcode = document.querySelector("#btn-qrcodes-G");
+        const resultShow = document.querySelector("#results-qr");
+        var count = 0;
+
+        function linksboxtext(count) {
+            const inputLinkText = [
+                "Paste your long link ....",
+                "We generate into QR codes",
+                "We generate into shorts links"
+            ];
+            LonglinkInput.placeholder = inputLinkText[count];
+        }
+
+        setInterval(() => {
+            if (count < 3) {
+                linksboxtext(count);
+                count++;
+            } else {
+                count = 0;
+            }
+        }, 2000);
+
+        btnGqrcode.addEventListener('click',async (e) => {
+            e.preventDefault();
+            let data = LonglinkInput.value;
+            if(urlvalidate(data)){
+
+                let getqrcode = new Promise((resolve,reject)=>{
+                    resolve(resultShow.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${data}`);
+                    // resultShow.classList.add('results-qr-style');
+                });
+                getqrcode.then(()=>{
+                    resultShow.classList.add('results-qr-style');
+                });
+
+            }else {
+                LonglinkInput.classList.add('blanck-input');
+                setTimeout(() => {
+                    LonglinkInput.classList.remove('blanck-input');
+                }, 1000);
+            }
+        });
+
+
+        btnGlink.addEventListener('click',async (e) => {
+            e.preventDefault();
+            let data = LonglinkInput.value;
+            if(urlvalidate(data)){
+                let shortlink = fetch
+            }else {
+                LonglinkInput.classList.add('blanck-input');
+                setTimeout(() => {
+                    LonglinkInput.classList.remove('blanck-input');
+                }, 1000);
+            }
+        });
+
+        // url Validator
+        function urlvalidate(url){
+            try{
+               let data =  new URL(url);
+                return true;
+            }catch(err){
+                return false;
+            }
+        }
+
+    </script>
+</body>
+
+</html>
