@@ -75,6 +75,11 @@ form{
     background-color: white;
 }
 
+.generate-short-link:hover{
+    background-color: rgb(254, 254, 180);
+    box-shadow: 0 2px 3px rgb(163, 163, 163);
+}
+
 .short-link-container{
     margin: 10px 0;
 }
@@ -144,5 +149,17 @@ form{
     box-shadow: 0 0 4px rgb(208, 208, 208);
     color: black;
     font-weight: 500;
+}
+
+
+
+#shortlink-data{
+    display: none;
+    width: 90%;
+    height: 40px;
+    border-radius: 6px;
+    border: none;
+    padding: 0 10px;
+    font-size:18px;
 }
 

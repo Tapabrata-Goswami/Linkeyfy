@@ -1,6 +1,6 @@
 <?php
 
-// require_once ('../dbconnect.php');
+require_once ('../dbconnect.php');
 
 if(isset($_GET['sl']) and $_GET['sl'] != null){
     $data = $_GET['sl'];

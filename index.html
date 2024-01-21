@@ -31,6 +31,7 @@
             </form>
             <div class="result-container">
                 <img id="results-qr" alt="">
+                <input type="text" id="shortlink-data">
             </div>
         </div>
         <div class="short-link-container">
@@ -63,8 +64,10 @@
         const btnGlink = document.querySelector("#btn-links-G");
         const btnGqrcode = document.querySelector("#btn-qrcodes-G");
         const resultShow = document.querySelector("#results-qr");
+        const restlutlink = document.querySelector("#shortlink-data");
         var count = 0;
 
+        // Input Box Animation Start
         function linksboxtext(count) {
             const inputLinkText = [
                 "Paste your long link ....",
@@ -82,7 +85,9 @@
                 count = 0;
             }
         }, 2000);
+        // Input Box Animation End
 
+        // Button event for Qr code generator Start
         btnGqrcode.addEventListener('click',async (e) => {
             e.preventDefault();
             let data = LonglinkInput.value;
@@ -103,13 +108,29 @@
                 }, 1000);
             }
         });
+        // Button event for Qr code generator End
 
 
         btnGlink.addEventListener('click',async (e) => {
             e.preventDefault();
+            
             let data = LonglinkInput.value;
             if(urlvalidate(data)){
-                let shortlink = fetch()
+                let shortlink = fetch("http://localhost:8080/linkefi-api/api/link-generator.php",{
+                    method:"POST",
+                    body: JSON.stringify({
+                        link:data,
+                    }),
+                    headers:{
+                        "Content-type":"application/json"
+                    }
+                })
+                .then((response)=>response.json())
+                .then((json)=> 
+                    restlutlink.value = json['shortlink'],
+                )
+                .catch(error=>console.error("Error: ", error));
+                restlutlink.style.display = "block";
             }else {
                 LonglinkInput.classList.add('blanck-input');
                 setTimeout(() => {
@@ -118,7 +139,7 @@
             }
         });
 
-        // url Validator
+        // url Validator Start
         function urlvalidate(url){
             try{
                let data =  new URL(url);
@@ -127,6 +148,7 @@
                 return false;
             }
         }
+        // url Validator End
 
     </script>
 </body>
